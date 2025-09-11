@@ -1,0 +1,346 @@
+Wed 13 Aug 2025 13:08:58 INFO  ['run_recbole.py', '--gpu_id=0', '--model=MyModel', '--dataset=Amazon_Handmade_Products', '--config_files=config/Amazon_Handmade_Products.yaml']
+Wed 13 Aug 2025 13:08:58 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 212
+state = INFO
+reproducibility = True
+data_path = /home/gujn/MyData/dataset/RecSysDatasets/Amazon_Handmade_Products
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+
+Training Hyper Parameters:
+epochs = 300
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.01
+train_neg_sample_args = {'distribution': 'none', 'sample_num': 'none', 'alpha': 'none', 'dynamic': False, 'candidate_num': 0}
+eval_step = 1
+stopping_step = 8
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}
+repeatable = True
+metrics = ['Recall', 'NDCG', 'MRR']
+topk = [5, 10, 20]
+valid_metric = MRR@10
+valid_metric_bigger = True
+eval_batch_size = 4096
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+seq_separator =  
+USER_ID_FIELD = user_id
+ITEM_ID_FIELD = item_id
+RATING_FIELD = rating
+TIME_FIELD = timestamp
+seq_len = None
+LABEL_FIELD = label
+threshold = None
+NEG_PREFIX = neg_
+load_col = {'inter': ['user_id', 'item_id', 'rating', 'timestamp']}
+unload_col = None
+unused_col = None
+additional_feat_suffix = None
+rm_dup_inter = None
+val_interval = None
+filter_inter_by_user_or_item = True
+user_inter_num_interval = [0,inf)
+item_inter_num_interval = [0,inf)
+alias_of_user_id = None
+alias_of_item_id = None
+alias_of_entity_id = None
+alias_of_relation_id = None
+preload_weight = None
+normalize_field = None
+normalize_all = None
+ITEM_LIST_LENGTH_FIELD = item_length
+LIST_SUFFIX = _list
+MAX_ITEM_LIST_LENGTH = 50
+POSITION_FIELD = position_id
+HEAD_ENTITY_ID_FIELD = head_id
+TAIL_ENTITY_ID_FIELD = tail_id
+RELATION_ID_FIELD = relation_id
+ENTITY_ID_FIELD = entity_id
+benchmark_filename = None
+
+Other Hyper Parameters: 
+worker = 0
+wandb_project = recbole
+shuffle = True
+require_pow = False
+enable_amp = False
+enable_scaler = False
+transform = None
+numerical_features = []
+discretization = None
+kg_reverse_r = False
+entity_kg_num_interval = [0,inf)
+relation_kg_num_interval = [0,inf)
+MODEL_TYPE = ModelType.SEQUENTIAL
+embedding_size = 16
+hidden_size = 16
+reduction_ratio = 2
+kernel_size = 5
+hidden_dropout_prob = 0.43
+hidden_act = swish
+layer_norm_eps = 1e-12
+initializer_range = 0.02
+loss_type = CE
+c = 7
+d_state = 16
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+single_spec = True
+local_rank = 0
+device = cuda
+valid_neg_sample_args = {'distribution': 'uniform', 'sample_num': 'none'}
+test_neg_sample_args = {'distribution': 'uniform', 'sample_num': 'none'}
+
+
+Wed 13 Aug 2025 13:09:02 INFO  Amazon_Handmade_Products
+The number of users: 586614
+Average actions of users: 1.1184477670968764
+The number of items: 164729
+Average actions of items: 3.9829051527366324
+The number of inters: 656096
+The sparsity of the dataset: 99.99932103888175%
+Remain Fields: ['user_id', 'item_id', 'rating', 'timestamp']
+Wed 13 Aug 2025 13:09:06 INFO  [Training]: train_batch_size = [2048] train_neg_sample_args: [{'distribution': 'none', 'sample_num': 'none', 'alpha': 'none', 'dynamic': False, 'candidate_num': 0}]
+Wed 13 Aug 2025 13:09:06 INFO  [Evaluation]: eval_batch_size = [4096] eval_args: [{'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}]
+Wed 13 Aug 2025 13:09:06 INFO  MyModel(
+  (item_embedding): Embedding(164729, 16, padding_idx=0)
+  (loss_fct): CrossEntropyLoss()
+  (mamba1): MambaBlock(
+    (in_proj): Linear(in_features=16, out_features=32, bias=False)
+    (x_proj): Linear(in_features=16, out_features=49, bias=False)
+    (dt_proj): Linear(in_features=1, out_features=16, bias=True)
+    (conv1d): Conv1d(16, 16, kernel_size=(2,), stride=(1,), padding=(1,))
+    (out_proj): Linear(in_features=16, out_features=16, bias=False)
+  )
+  (mamba2): MambaBlock(
+    (in_proj): Linear(in_features=50, out_features=100, bias=False)
+    (x_proj): Linear(in_features=50, out_features=86, bias=False)
+    (dt_proj): Linear(in_features=4, out_features=50, bias=True)
+    (conv1d): Conv1d(50, 50, kernel_size=(2,), stride=(1,), padding=(1,))
+    (out_proj): Linear(in_features=50, out_features=50, bias=False)
+  )
+  (fusion): ProjectFusion(
+    (sigmoid): Sigmoid()
+  )
+  (linear_out): Linear(in_features=16, out_features=16, bias=True)
+  (LayerNorm): LayerNorm((16,), eps=1e-12, elementwise_affine=True)
+  (dropout): Dropout(p=0.43, inplace=False)
+  (high_gru): GRU(16, 16, batch_first=True)
+)
+Trainable parameters: 2656844
+Wed 13 Aug 2025 13:09:06 INFO  FLOPs: 372816.0
+Wed 13 Aug 2025 13:09:10 INFO  epoch 0 training [time: 2.91s, train loss: 315.0819]
+Wed 13 Aug 2025 13:09:10 INFO  epoch 0 evaluating [time: 0.10s, valid_score: 0.000900]
+Wed 13 Aug 2025 13:09:10 INFO  valid result: 
+recall@5 : 0.0016    recall@10 : 0.0035    recall@20 : 0.0075    ndcg@5 : 0.0009    ndcg@10 : 0.0015    ndcg@20 : 0.0025    mrr@5 : 0.0006    mrr@10 : 0.0009    mrr@20 : 0.0012
+Wed 13 Aug 2025 13:09:10 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:13 INFO  epoch 1 training [time: 2.82s, train loss: 283.8423]
+Wed 13 Aug 2025 13:09:13 INFO  epoch 1 evaluating [time: 0.07s, valid_score: 0.001000]
+Wed 13 Aug 2025 13:09:13 INFO  valid result: 
+recall@5 : 0.0022    recall@10 : 0.004    recall@20 : 0.007    ndcg@5 : 0.0011    ndcg@10 : 0.0017    ndcg@20 : 0.0024    mrr@5 : 0.0007    mrr@10 : 0.001    mrr@20 : 0.0012
+Wed 13 Aug 2025 13:09:13 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:16 INFO  epoch 2 training [time: 2.76s, train loss: 273.0391]
+Wed 13 Aug 2025 13:09:16 INFO  epoch 2 evaluating [time: 0.07s, valid_score: 0.000600]
+Wed 13 Aug 2025 13:09:16 INFO  valid result: 
+recall@5 : 0.0008    recall@10 : 0.003    recall@20 : 0.0081    ndcg@5 : 0.0004    ndcg@10 : 0.0012    ndcg@20 : 0.0025    mrr@5 : 0.0003    mrr@10 : 0.0006    mrr@20 : 0.001
+Wed 13 Aug 2025 13:09:19 INFO  epoch 3 training [time: 2.83s, train loss: 262.7334]
+Wed 13 Aug 2025 13:09:19 INFO  epoch 3 evaluating [time: 0.07s, valid_score: 0.001400]
+Wed 13 Aug 2025 13:09:19 INFO  valid result: 
+recall@5 : 0.0022    recall@10 : 0.0048    recall@20 : 0.0078    ndcg@5 : 0.0013    ndcg@10 : 0.0021    ndcg@20 : 0.0029    mrr@5 : 0.001    mrr@10 : 0.0014    mrr@20 : 0.0015
+Wed 13 Aug 2025 13:09:19 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:22 INFO  epoch 4 training [time: 2.74s, train loss: 250.0733]
+Wed 13 Aug 2025 13:09:22 INFO  epoch 4 evaluating [time: 0.08s, valid_score: 0.003500]
+Wed 13 Aug 2025 13:09:22 INFO  valid result: 
+recall@5 : 0.0051    recall@10 : 0.0083    recall@20 : 0.0137    ndcg@5 : 0.0036    ndcg@10 : 0.0046    ndcg@20 : 0.006    mrr@5 : 0.0031    mrr@10 : 0.0035    mrr@20 : 0.0038
+Wed 13 Aug 2025 13:09:22 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:25 INFO  epoch 5 training [time: 2.81s, train loss: 235.5276]
+Wed 13 Aug 2025 13:09:25 INFO  epoch 5 evaluating [time: 0.07s, valid_score: 0.004500]
+Wed 13 Aug 2025 13:09:25 INFO  valid result: 
+recall@5 : 0.0081    recall@10 : 0.0129    recall@20 : 0.0183    ndcg@5 : 0.0049    ndcg@10 : 0.0065    ndcg@20 : 0.0078    mrr@5 : 0.0038    mrr@10 : 0.0045    mrr@20 : 0.0049
+Wed 13 Aug 2025 13:09:25 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:28 INFO  epoch 6 training [time: 2.79s, train loss: 222.1743]
+Wed 13 Aug 2025 13:09:28 INFO  epoch 6 evaluating [time: 0.07s, valid_score: 0.007200]
+Wed 13 Aug 2025 13:09:28 INFO  valid result: 
+recall@5 : 0.0124    recall@10 : 0.0191    recall@20 : 0.0272    ndcg@5 : 0.0078    ndcg@10 : 0.01    ndcg@20 : 0.012    mrr@5 : 0.0063    mrr@10 : 0.0072    mrr@20 : 0.0078
+Wed 13 Aug 2025 13:09:28 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:31 INFO  epoch 7 training [time: 2.75s, train loss: 210.8053]
+Wed 13 Aug 2025 13:09:31 INFO  epoch 7 evaluating [time: 0.07s, valid_score: 0.008800]
+Wed 13 Aug 2025 13:09:31 INFO  valid result: 
+recall@5 : 0.0153    recall@10 : 0.0215    recall@20 : 0.0309    ndcg@5 : 0.0098    ndcg@10 : 0.0118    ndcg@20 : 0.0142    mrr@5 : 0.008    mrr@10 : 0.0088    mrr@20 : 0.0094
+Wed 13 Aug 2025 13:09:31 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:34 INFO  epoch 8 training [time: 2.84s, train loss: 200.4967]
+Wed 13 Aug 2025 13:09:34 INFO  epoch 8 evaluating [time: 0.09s, valid_score: 0.010500]
+Wed 13 Aug 2025 13:09:34 INFO  valid result: 
+recall@5 : 0.0175    recall@10 : 0.0264    recall@20 : 0.0371    ndcg@5 : 0.0113    ndcg@10 : 0.0142    ndcg@20 : 0.0169    mrr@5 : 0.0092    mrr@10 : 0.0105    mrr@20 : 0.0112
+Wed 13 Aug 2025 13:09:34 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:37 INFO  epoch 9 training [time: 2.80s, train loss: 192.7556]
+Wed 13 Aug 2025 13:09:37 INFO  epoch 9 evaluating [time: 0.08s, valid_score: 0.011100]
+Wed 13 Aug 2025 13:09:37 INFO  valid result: 
+recall@5 : 0.0186    recall@10 : 0.0301    recall@20 : 0.0414    ndcg@5 : 0.0118    ndcg@10 : 0.0156    ndcg@20 : 0.0185    mrr@5 : 0.0095    mrr@10 : 0.0111    mrr@20 : 0.0119
+Wed 13 Aug 2025 13:09:37 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:40 INFO  epoch 10 training [time: 2.80s, train loss: 186.3121]
+Wed 13 Aug 2025 13:09:40 INFO  epoch 10 evaluating [time: 0.08s, valid_score: 0.012500]
+Wed 13 Aug 2025 13:09:40 INFO  valid result: 
+recall@5 : 0.0253    recall@10 : 0.0334    recall@20 : 0.0425    ndcg@5 : 0.0148    ndcg@10 : 0.0174    ndcg@20 : 0.0197    mrr@5 : 0.0114    mrr@10 : 0.0125    mrr@20 : 0.0131
+Wed 13 Aug 2025 13:09:40 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:43 INFO  epoch 11 training [time: 2.79s, train loss: 180.7183]
+Wed 13 Aug 2025 13:09:43 INFO  epoch 11 evaluating [time: 0.07s, valid_score: 0.013500]
+Wed 13 Aug 2025 13:09:43 INFO  valid result: 
+recall@5 : 0.0253    recall@10 : 0.0344    recall@20 : 0.0452    ndcg@5 : 0.0156    ndcg@10 : 0.0185    ndcg@20 : 0.0212    mrr@5 : 0.0123    mrr@10 : 0.0135    mrr@20 : 0.0142
+Wed 13 Aug 2025 13:09:43 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:46 INFO  epoch 12 training [time: 2.78s, train loss: 176.3230]
+Wed 13 Aug 2025 13:09:46 INFO  epoch 12 evaluating [time: 0.07s, valid_score: 0.013600]
+Wed 13 Aug 2025 13:09:46 INFO  valid result: 
+recall@5 : 0.0253    recall@10 : 0.0363    recall@20 : 0.049    ndcg@5 : 0.0154    ndcg@10 : 0.019    ndcg@20 : 0.0222    mrr@5 : 0.0122    mrr@10 : 0.0136    mrr@20 : 0.0145
+Wed 13 Aug 2025 13:09:46 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:49 INFO  epoch 13 training [time: 2.87s, train loss: 172.6200]
+Wed 13 Aug 2025 13:09:49 INFO  epoch 13 evaluating [time: 0.07s, valid_score: 0.014200]
+Wed 13 Aug 2025 13:09:49 INFO  valid result: 
+recall@5 : 0.0253    recall@10 : 0.0374    recall@20 : 0.0498    ndcg@5 : 0.0158    ndcg@10 : 0.0197    ndcg@20 : 0.0228    mrr@5 : 0.0127    mrr@10 : 0.0142    mrr@20 : 0.0151
+Wed 13 Aug 2025 13:09:50 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:52 INFO  epoch 14 training [time: 2.81s, train loss: 170.0345]
+Wed 13 Aug 2025 13:09:52 INFO  epoch 14 evaluating [time: 0.07s, valid_score: 0.015800]
+Wed 13 Aug 2025 13:09:52 INFO  valid result: 
+recall@5 : 0.0293    recall@10 : 0.0385    recall@20 : 0.0519    ndcg@5 : 0.0182    ndcg@10 : 0.0212    ndcg@20 : 0.0246    mrr@5 : 0.0145    mrr@10 : 0.0158    mrr@20 : 0.0167
+Wed 13 Aug 2025 13:09:53 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:09:55 INFO  epoch 15 training [time: 2.80s, train loss: 166.9520]
+Wed 13 Aug 2025 13:09:56 INFO  epoch 15 evaluating [time: 0.08s, valid_score: 0.015100]
+Wed 13 Aug 2025 13:09:56 INFO  valid result: 
+recall@5 : 0.0277    recall@10 : 0.0396    recall@20 : 0.0536    ndcg@5 : 0.017    ndcg@10 : 0.0209    ndcg@20 : 0.0244    mrr@5 : 0.0135    mrr@10 : 0.0151    mrr@20 : 0.0161
+Wed 13 Aug 2025 13:09:58 INFO  epoch 16 training [time: 2.74s, train loss: 164.3674]
+Wed 13 Aug 2025 13:09:58 INFO  epoch 16 evaluating [time: 0.07s, valid_score: 0.016000]
+Wed 13 Aug 2025 13:09:58 INFO  valid result: 
+recall@5 : 0.0285    recall@10 : 0.0409    recall@20 : 0.0536    ndcg@5 : 0.0179    ndcg@10 : 0.0219    ndcg@20 : 0.0251    mrr@5 : 0.0144    mrr@10 : 0.016    mrr@20 : 0.0169
+Wed 13 Aug 2025 13:09:58 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:01 INFO  epoch 17 training [time: 2.75s, train loss: 162.1534]
+Wed 13 Aug 2025 13:10:01 INFO  epoch 17 evaluating [time: 0.07s, valid_score: 0.016600]
+Wed 13 Aug 2025 13:10:01 INFO  valid result: 
+recall@5 : 0.0301    recall@10 : 0.0431    recall@20 : 0.0552    ndcg@5 : 0.0187    ndcg@10 : 0.0229    ndcg@20 : 0.0259    mrr@5 : 0.0149    mrr@10 : 0.0166    mrr@20 : 0.0175
+Wed 13 Aug 2025 13:10:01 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:04 INFO  epoch 18 training [time: 2.76s, train loss: 160.5601]
+Wed 13 Aug 2025 13:10:04 INFO  epoch 18 evaluating [time: 0.07s, valid_score: 0.016800]
+Wed 13 Aug 2025 13:10:04 INFO  valid result: 
+recall@5 : 0.0312    recall@10 : 0.0425    recall@20 : 0.0522    ndcg@5 : 0.0192    ndcg@10 : 0.0229    ndcg@20 : 0.0253    mrr@5 : 0.0153    mrr@10 : 0.0168    mrr@20 : 0.0174
+Wed 13 Aug 2025 13:10:04 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:07 INFO  epoch 19 training [time: 2.81s, train loss: 158.7565]
+Wed 13 Aug 2025 13:10:07 INFO  epoch 19 evaluating [time: 0.12s, valid_score: 0.016400]
+Wed 13 Aug 2025 13:10:07 INFO  valid result: 
+recall@5 : 0.0293    recall@10 : 0.0422    recall@20 : 0.0541    ndcg@5 : 0.0182    ndcg@10 : 0.0225    ndcg@20 : 0.0255    mrr@5 : 0.0146    mrr@10 : 0.0164    mrr@20 : 0.0172
+Wed 13 Aug 2025 13:10:10 INFO  epoch 20 training [time: 2.75s, train loss: 157.0251]
+Wed 13 Aug 2025 13:10:10 INFO  epoch 20 evaluating [time: 0.07s, valid_score: 0.016900]
+Wed 13 Aug 2025 13:10:10 INFO  valid result: 
+recall@5 : 0.0318    recall@10 : 0.0425    recall@20 : 0.0544    ndcg@5 : 0.0195    ndcg@10 : 0.023    ndcg@20 : 0.026    mrr@5 : 0.0154    mrr@10 : 0.0169    mrr@20 : 0.0177
+Wed 13 Aug 2025 13:10:10 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:13 INFO  epoch 21 training [time: 2.77s, train loss: 155.8293]
+Wed 13 Aug 2025 13:10:13 INFO  epoch 21 evaluating [time: 0.07s, valid_score: 0.014700]
+Wed 13 Aug 2025 13:10:13 INFO  valid result: 
+recall@5 : 0.0293    recall@10 : 0.0406    recall@20 : 0.0538    ndcg@5 : 0.0172    ndcg@10 : 0.0209    ndcg@20 : 0.0243    mrr@5 : 0.0132    mrr@10 : 0.0147    mrr@20 : 0.0157
+Wed 13 Aug 2025 13:10:16 INFO  epoch 22 training [time: 2.75s, train loss: 154.7458]
+Wed 13 Aug 2025 13:10:16 INFO  epoch 22 evaluating [time: 0.07s, valid_score: 0.016900]
+Wed 13 Aug 2025 13:10:16 INFO  valid result: 
+recall@5 : 0.0312    recall@10 : 0.0414    recall@20 : 0.0527    ndcg@5 : 0.0195    ndcg@10 : 0.0227    ndcg@20 : 0.0256    mrr@5 : 0.0156    mrr@10 : 0.0169    mrr@20 : 0.0177
+Wed 13 Aug 2025 13:10:16 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:19 INFO  epoch 23 training [time: 2.81s, train loss: 153.1685]
+Wed 13 Aug 2025 13:10:19 INFO  epoch 23 evaluating [time: 0.07s, valid_score: 0.016600]
+Wed 13 Aug 2025 13:10:19 INFO  valid result: 
+recall@5 : 0.0301    recall@10 : 0.0433    recall@20 : 0.0538    ndcg@5 : 0.0187    ndcg@10 : 0.0229    ndcg@20 : 0.0256    mrr@5 : 0.0149    mrr@10 : 0.0166    mrr@20 : 0.0174
+Wed 13 Aug 2025 13:10:22 INFO  epoch 24 training [time: 2.77s, train loss: 152.1098]
+Wed 13 Aug 2025 13:10:22 INFO  epoch 24 evaluating [time: 0.12s, valid_score: 0.016400]
+Wed 13 Aug 2025 13:10:22 INFO  valid result: 
+recall@5 : 0.0299    recall@10 : 0.0428    recall@20 : 0.0565    ndcg@5 : 0.0184    ndcg@10 : 0.0226    ndcg@20 : 0.0261    mrr@5 : 0.0146    mrr@10 : 0.0164    mrr@20 : 0.0173
+Wed 13 Aug 2025 13:10:25 INFO  epoch 25 training [time: 2.83s, train loss: 151.5963]
+Wed 13 Aug 2025 13:10:25 INFO  epoch 25 evaluating [time: 0.07s, valid_score: 0.016400]
+Wed 13 Aug 2025 13:10:25 INFO  valid result: 
+recall@5 : 0.0323    recall@10 : 0.0422    recall@20 : 0.0565    ndcg@5 : 0.0193    ndcg@10 : 0.0226    ndcg@20 : 0.0262    mrr@5 : 0.0151    mrr@10 : 0.0164    mrr@20 : 0.0174
+Wed 13 Aug 2025 13:10:28 INFO  epoch 26 training [time: 2.87s, train loss: 150.2530]
+Wed 13 Aug 2025 13:10:28 INFO  epoch 26 evaluating [time: 0.07s, valid_score: 0.016500]
+Wed 13 Aug 2025 13:10:28 INFO  valid result: 
+recall@5 : 0.0315    recall@10 : 0.0433    recall@20 : 0.0554    ndcg@5 : 0.019    ndcg@10 : 0.0229    ndcg@20 : 0.0259    mrr@5 : 0.0149    mrr@10 : 0.0165    mrr@20 : 0.0174
+Wed 13 Aug 2025 13:10:31 INFO  epoch 27 training [time: 2.96s, train loss: 149.2326]
+Wed 13 Aug 2025 13:10:31 INFO  epoch 27 evaluating [time: 0.07s, valid_score: 0.016600]
+Wed 13 Aug 2025 13:10:31 INFO  valid result: 
+recall@5 : 0.0307    recall@10 : 0.0428    recall@20 : 0.0554    ndcg@5 : 0.0189    ndcg@10 : 0.0228    ndcg@20 : 0.026    mrr@5 : 0.015    mrr@10 : 0.0166    mrr@20 : 0.0175
+Wed 13 Aug 2025 13:10:33 INFO  epoch 28 training [time: 2.76s, train loss: 148.5318]
+Wed 13 Aug 2025 13:10:34 INFO  epoch 28 evaluating [time: 0.07s, valid_score: 0.016700]
+Wed 13 Aug 2025 13:10:34 INFO  valid result: 
+recall@5 : 0.0304    recall@10 : 0.0436    recall@20 : 0.0581    ndcg@5 : 0.0187    ndcg@10 : 0.023    ndcg@20 : 0.0267    mrr@5 : 0.0149    mrr@10 : 0.0167    mrr@20 : 0.0177
+Wed 13 Aug 2025 13:10:36 INFO  epoch 29 training [time: 2.72s, train loss: 147.3935]
+Wed 13 Aug 2025 13:10:36 INFO  epoch 29 evaluating [time: 0.07s, valid_score: 0.016500]
+Wed 13 Aug 2025 13:10:36 INFO  valid result: 
+recall@5 : 0.0328    recall@10 : 0.0431    recall@20 : 0.0546    ndcg@5 : 0.0195    ndcg@10 : 0.0228    ndcg@20 : 0.0257    mrr@5 : 0.0151    mrr@10 : 0.0165    mrr@20 : 0.0173
+Wed 13 Aug 2025 13:10:39 INFO  epoch 30 training [time: 2.77s, train loss: 146.9082]
+Wed 13 Aug 2025 13:10:39 INFO  epoch 30 evaluating [time: 0.07s, valid_score: 0.017100]
+Wed 13 Aug 2025 13:10:39 INFO  valid result: 
+recall@5 : 0.0318    recall@10 : 0.0401    recall@20 : 0.0571    ndcg@5 : 0.0199    ndcg@10 : 0.0226    ndcg@20 : 0.0269    mrr@5 : 0.016    mrr@10 : 0.0171    mrr@20 : 0.0183
+Wed 13 Aug 2025 13:10:39 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:42 INFO  epoch 31 training [time: 2.82s, train loss: 146.6304]
+Wed 13 Aug 2025 13:10:42 INFO  epoch 31 evaluating [time: 0.07s, valid_score: 0.018500]
+Wed 13 Aug 2025 13:10:42 INFO  valid result: 
+recall@5 : 0.0336    recall@10 : 0.0422    recall@20 : 0.0576    ndcg@5 : 0.0214    ndcg@10 : 0.0241    ndcg@20 : 0.028    mrr@5 : 0.0174    mrr@10 : 0.0185    mrr@20 : 0.0195
+Wed 13 Aug 2025 13:10:42 INFO  Saving current: saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:10:45 INFO  epoch 32 training [time: 2.74s, train loss: 145.7375]
+Wed 13 Aug 2025 13:10:45 INFO  epoch 32 evaluating [time: 0.07s, valid_score: 0.017400]
+Wed 13 Aug 2025 13:10:45 INFO  valid result: 
+recall@5 : 0.0301    recall@10 : 0.042    recall@20 : 0.0538    ndcg@5 : 0.0194    ndcg@10 : 0.0232    ndcg@20 : 0.0262    mrr@5 : 0.0159    mrr@10 : 0.0174    mrr@20 : 0.0183
+Wed 13 Aug 2025 13:10:48 INFO  epoch 33 training [time: 2.77s, train loss: 145.0017]
+Wed 13 Aug 2025 13:10:48 INFO  epoch 33 evaluating [time: 0.07s, valid_score: 0.017500]
+Wed 13 Aug 2025 13:10:48 INFO  valid result: 
+recall@5 : 0.0323    recall@10 : 0.0417    recall@20 : 0.0579    ndcg@5 : 0.0202    ndcg@10 : 0.0233    ndcg@20 : 0.0274    mrr@5 : 0.0163    mrr@10 : 0.0175    mrr@20 : 0.0186
+Wed 13 Aug 2025 13:10:51 INFO  epoch 34 training [time: 2.71s, train loss: 144.3537]
+Wed 13 Aug 2025 13:10:51 INFO  epoch 34 evaluating [time: 0.12s, valid_score: 0.017600]
+Wed 13 Aug 2025 13:10:51 INFO  valid result: 
+recall@5 : 0.0312    recall@10 : 0.0452    recall@20 : 0.0576    ndcg@5 : 0.0196    ndcg@10 : 0.0241    ndcg@20 : 0.0272    mrr@5 : 0.0158    mrr@10 : 0.0176    mrr@20 : 0.0185
+Wed 13 Aug 2025 13:10:54 INFO  epoch 35 training [time: 2.74s, train loss: 143.8898]
+Wed 13 Aug 2025 13:10:54 INFO  epoch 35 evaluating [time: 0.08s, valid_score: 0.016800]
+Wed 13 Aug 2025 13:10:54 INFO  valid result: 
+recall@5 : 0.0301    recall@10 : 0.0414    recall@20 : 0.0552    ndcg@5 : 0.019    ndcg@10 : 0.0227    ndcg@20 : 0.0262    mrr@5 : 0.0153    mrr@10 : 0.0168    mrr@20 : 0.0178
+Wed 13 Aug 2025 13:10:56 INFO  epoch 36 training [time: 2.71s, train loss: 143.9154]
+Wed 13 Aug 2025 13:10:56 INFO  epoch 36 evaluating [time: 0.07s, valid_score: 0.017800]
+Wed 13 Aug 2025 13:10:56 INFO  valid result: 
+recall@5 : 0.032    recall@10 : 0.0428    recall@20 : 0.0552    ndcg@5 : 0.0202    ndcg@10 : 0.0237    ndcg@20 : 0.0268    mrr@5 : 0.0163    mrr@10 : 0.0178    mrr@20 : 0.0186
+Wed 13 Aug 2025 13:10:59 INFO  epoch 37 training [time: 2.80s, train loss: 143.5372]
+Wed 13 Aug 2025 13:10:59 INFO  epoch 37 evaluating [time: 0.07s, valid_score: 0.017900]
+Wed 13 Aug 2025 13:10:59 INFO  valid result: 
+recall@5 : 0.0339    recall@10 : 0.0406    recall@20 : 0.0541    ndcg@5 : 0.0212    ndcg@10 : 0.0233    ndcg@20 : 0.0266    mrr@5 : 0.017    mrr@10 : 0.0179    mrr@20 : 0.0187
+Wed 13 Aug 2025 13:11:02 INFO  epoch 38 training [time: 2.80s, train loss: 142.4750]
+Wed 13 Aug 2025 13:11:02 INFO  epoch 38 evaluating [time: 0.07s, valid_score: 0.017100]
+Wed 13 Aug 2025 13:11:02 INFO  valid result: 
+recall@5 : 0.0301    recall@10 : 0.042    recall@20 : 0.0549    ndcg@5 : 0.0192    ndcg@10 : 0.0229    ndcg@20 : 0.0262    mrr@5 : 0.0155    mrr@10 : 0.0171    mrr@20 : 0.0179
+Wed 13 Aug 2025 13:11:05 INFO  epoch 39 training [time: 2.86s, train loss: 141.8976]
+Wed 13 Aug 2025 13:11:05 INFO  epoch 39 evaluating [time: 0.14s, valid_score: 0.017100]
+Wed 13 Aug 2025 13:11:05 INFO  valid result: 
+recall@5 : 0.0309    recall@10 : 0.0409    recall@20 : 0.0573    ndcg@5 : 0.0195    ndcg@10 : 0.0228    ndcg@20 : 0.0269    mrr@5 : 0.0157    mrr@10 : 0.0171    mrr@20 : 0.0182
+Wed 13 Aug 2025 13:11:08 INFO  epoch 40 training [time: 2.87s, train loss: 141.1910]
+Wed 13 Aug 2025 13:11:08 INFO  epoch 40 evaluating [time: 0.07s, valid_score: 0.017500]
+Wed 13 Aug 2025 13:11:08 INFO  valid result: 
+recall@5 : 0.0307    recall@10 : 0.0422    recall@20 : 0.0573    ndcg@5 : 0.0197    ndcg@10 : 0.0234    ndcg@20 : 0.0271    mrr@5 : 0.016    mrr@10 : 0.0175    mrr@20 : 0.0185
+Wed 13 Aug 2025 13:11:08 INFO  Finished training, best eval result in epoch 31
+Wed 13 Aug 2025 13:11:08 INFO  Loading model structure and parameters from saved/MyModel-Aug-13-2025_13-09-06.pth
+Wed 13 Aug 2025 13:11:09 INFO  The running environment of this training is as follows:
++-------------+-----------------+
+| Environment |      Usage      |
++=============+=================+
+| CPU         |     30.20 %     |
++-------------+-----------------+
+| GPU         | 22.02 G/23.65 G |
++-------------+-----------------+
+| Memory      | 1.57 G/125.53 G |
++-------------+-----------------+
+Wed 13 Aug 2025 13:11:09 INFO  best valid : OrderedDict([('recall@5', 0.0336), ('recall@10', 0.0422), ('recall@20', 0.0576), ('ndcg@5', 0.0214), ('ndcg@10', 0.0241), ('ndcg@20', 0.028), ('mrr@5', 0.0174), ('mrr@10', 0.0185), ('mrr@20', 0.0195)])
+Wed 13 Aug 2025 13:11:09 INFO  test result: OrderedDict([('recall@5', 0.0296), ('recall@10', 0.0391), ('recall@20', 0.0504), ('ndcg@5', 0.0192), ('ndcg@10', 0.0222), ('ndcg@20', 0.0251), ('mrr@5', 0.0157), ('mrr@10', 0.017), ('mrr@20', 0.0178)])

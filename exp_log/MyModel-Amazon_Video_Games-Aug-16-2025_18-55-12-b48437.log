@@ -1,0 +1,280 @@
+Sat 16 Aug 2025 18:55:12 INFO  ['run_recbole.py', '--gpu_id=0', '--model=MyModel', '--dataset=Amazon_Video_Games', '--config_files=config/Amazon_Video_Games.yaml']
+Sat 16 Aug 2025 18:55:12 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 212
+state = INFO
+reproducibility = True
+data_path = /home/gujn/MyData/dataset/RecSysDatasets/Amazon_Video_Games
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+
+Training Hyper Parameters:
+epochs = 300
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+train_neg_sample_args = {'distribution': 'none', 'sample_num': 'none', 'alpha': 'none', 'dynamic': False, 'candidate_num': 0}
+eval_step = 1
+stopping_step = 5
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}
+repeatable = True
+metrics = ['Recall', 'NDCG', 'MRR']
+topk = [5, 10, 20]
+valid_metric = Recall@10
+valid_metric_bigger = True
+eval_batch_size = 4096
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+seq_separator =  
+USER_ID_FIELD = user_id
+ITEM_ID_FIELD = item_id
+RATING_FIELD = rating
+TIME_FIELD = timestamp
+seq_len = None
+LABEL_FIELD = label
+threshold = None
+NEG_PREFIX = neg_
+load_col = {'inter': ['user_id', 'item_id', 'rating', 'timestamp']}
+unload_col = None
+unused_col = None
+additional_feat_suffix = None
+rm_dup_inter = None
+val_interval = None
+filter_inter_by_user_or_item = True
+user_inter_num_interval = [5,inf)
+item_inter_num_interval = [5,inf)
+alias_of_user_id = None
+alias_of_item_id = None
+alias_of_entity_id = None
+alias_of_relation_id = None
+preload_weight = None
+normalize_field = None
+normalize_all = None
+ITEM_LIST_LENGTH_FIELD = item_length
+LIST_SUFFIX = _list
+MAX_ITEM_LIST_LENGTH = 50
+POSITION_FIELD = position_id
+HEAD_ENTITY_ID_FIELD = head_id
+TAIL_ENTITY_ID_FIELD = tail_id
+RELATION_ID_FIELD = relation_id
+ENTITY_ID_FIELD = entity_id
+benchmark_filename = None
+
+Other Hyper Parameters: 
+worker = 0
+wandb_project = recbole
+shuffle = True
+require_pow = False
+enable_amp = False
+enable_scaler = False
+transform = None
+numerical_features = []
+discretization = None
+kg_reverse_r = False
+entity_kg_num_interval = [0,inf)
+relation_kg_num_interval = [0,inf)
+MODEL_TYPE = ModelType.SEQUENTIAL
+embedding_size = 64
+hidden_size = 64
+hidden_dropout_prob = 0.45
+layer_norm_eps = 1e-12
+hidden_act = gelu
+initializer_range = 0.02
+loss_type = CE
+c = 7
+d_state = 16
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+single_spec = True
+local_rank = 0
+device = cuda
+valid_neg_sample_args = {'distribution': 'uniform', 'sample_num': 'none'}
+test_neg_sample_args = {'distribution': 'uniform', 'sample_num': 'none'}
+
+
+Sat 16 Aug 2025 18:55:31 INFO  Amazon_Video_Games
+The number of users: 55145
+Average actions of users: 9.011025678224286
+The number of items: 17287
+Average actions of items: 28.746037255582554
+The number of inters: 496904
+The sparsity of the dataset: 99.94787492177826%
+Remain Fields: ['user_id', 'item_id', 'rating', 'timestamp']
+Sat 16 Aug 2025 18:55:39 INFO  [Training]: train_batch_size = [2048] train_neg_sample_args: [{'distribution': 'none', 'sample_num': 'none', 'alpha': 'none', 'dynamic': False, 'candidate_num': 0}]
+Sat 16 Aug 2025 18:55:39 INFO  [Evaluation]: eval_batch_size = [4096] eval_args: [{'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}]
+Sat 16 Aug 2025 18:55:40 INFO  MyModel(
+  (item_embedding): Embedding(17287, 64, padding_idx=0)
+  (loss_fct): CrossEntropyLoss()
+  (mamba1): MambaBlock(
+    (in_proj): Linear(in_features=64, out_features=128, bias=False)
+    (x_proj): Linear(in_features=64, out_features=100, bias=False)
+    (dt_proj): Linear(in_features=4, out_features=64, bias=True)
+    (conv1d): Conv1d(64, 64, kernel_size=(2,), stride=(1,), padding=(1,))
+    (out_proj): Linear(in_features=64, out_features=64, bias=False)
+  )
+  (mamba2): MambaBlock(
+    (in_proj): Linear(in_features=50, out_features=100, bias=False)
+    (x_proj): Linear(in_features=50, out_features=86, bias=False)
+    (dt_proj): Linear(in_features=4, out_features=50, bias=True)
+    (conv1d): Conv1d(50, 50, kernel_size=(2,), stride=(1,), padding=(1,))
+    (out_proj): Linear(in_features=50, out_features=50, bias=False)
+  )
+  (fusion): ProjectFusion(
+    (sigmoid): Sigmoid()
+  )
+  (linear_out): Linear(in_features=64, out_features=64, bias=True)
+  (LayerNorm): LayerNorm((64,), eps=1e-12, elementwise_affine=True)
+  (dropout): Dropout(p=0.45, inplace=False)
+  (high_gru): GRU(64, 64, batch_first=True)
+)
+Trainable parameters: 1180012
+Sat 16 Aug 2025 18:55:41 INFO  FLOPs: 3200064.0
+Sat 16 Aug 2025 18:56:09 INFO  epoch 0 training [time: 26.24s, train loss: 1470.7744]
+Sat 16 Aug 2025 18:56:11 INFO  epoch 0 evaluating [time: 1.57s, valid_score: 0.019200]
+Sat 16 Aug 2025 18:56:11 INFO  valid result: 
+recall@5 : 0.0124    recall@10 : 0.0192    recall@20 : 0.034    ndcg@5 : 0.008    ndcg@10 : 0.0101    ndcg@20 : 0.0138    mrr@5 : 0.0065    mrr@10 : 0.0074    mrr@20 : 0.0084
+Sat 16 Aug 2025 18:56:11 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:56:37 INFO  epoch 1 training [time: 26.40s, train loss: 1392.4735]
+Sat 16 Aug 2025 18:56:39 INFO  epoch 1 evaluating [time: 1.39s, valid_score: 0.073100]
+Sat 16 Aug 2025 18:56:39 INFO  valid result: 
+recall@5 : 0.0567    recall@10 : 0.0731    recall@20 : 0.0952    ndcg@5 : 0.0442    ndcg@10 : 0.0494    ndcg@20 : 0.055    mrr@5 : 0.04    mrr@10 : 0.0422    mrr@20 : 0.0437
+Sat 16 Aug 2025 18:56:39 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:57:05 INFO  epoch 2 training [time: 26.01s, train loss: 1296.0478]
+Sat 16 Aug 2025 18:57:06 INFO  epoch 2 evaluating [time: 1.25s, valid_score: 0.107900]
+Sat 16 Aug 2025 18:57:06 INFO  valid result: 
+recall@5 : 0.0819    recall@10 : 0.1079    recall@20 : 0.1463    ndcg@5 : 0.0642    ndcg@10 : 0.0726    ndcg@20 : 0.0822    mrr@5 : 0.0584    mrr@10 : 0.0619    mrr@20 : 0.0645
+Sat 16 Aug 2025 18:57:06 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:57:32 INFO  epoch 3 training [time: 26.30s, train loss: 1220.2534]
+Sat 16 Aug 2025 18:57:33 INFO  epoch 3 evaluating [time: 1.22s, valid_score: 0.124300]
+Sat 16 Aug 2025 18:57:33 INFO  valid result: 
+recall@5 : 0.0931    recall@10 : 0.1243    recall@20 : 0.171    ndcg@5 : 0.0715    ndcg@10 : 0.0815    ndcg@20 : 0.0932    mrr@5 : 0.0644    mrr@10 : 0.0685    mrr@20 : 0.0717
+Sat 16 Aug 2025 18:57:34 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:57:59 INFO  epoch 4 training [time: 25.76s, train loss: 1174.6040]
+Sat 16 Aug 2025 18:58:00 INFO  epoch 4 evaluating [time: 1.23s, valid_score: 0.135700]
+Sat 16 Aug 2025 18:58:00 INFO  valid result: 
+recall@5 : 0.0994    recall@10 : 0.1357    recall@20 : 0.1848    ndcg@5 : 0.0752    ndcg@10 : 0.0869    ndcg@20 : 0.0992    mrr@5 : 0.0673    mrr@10 : 0.072    mrr@20 : 0.0754
+Sat 16 Aug 2025 18:58:01 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:58:27 INFO  epoch 5 training [time: 26.06s, train loss: 1143.9828]
+Sat 16 Aug 2025 18:58:28 INFO  epoch 5 evaluating [time: 1.29s, valid_score: 0.145800]
+Sat 16 Aug 2025 18:58:28 INFO  valid result: 
+recall@5 : 0.1058    recall@10 : 0.1458    recall@20 : 0.1964    ndcg@5 : 0.0792    ndcg@10 : 0.092    ndcg@20 : 0.1048    mrr@5 : 0.0705    mrr@10 : 0.0757    mrr@20 : 0.0792
+Sat 16 Aug 2025 18:58:28 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:58:54 INFO  epoch 6 training [time: 26.20s, train loss: 1121.6997]
+Sat 16 Aug 2025 18:58:55 INFO  epoch 6 evaluating [time: 1.30s, valid_score: 0.149900]
+Sat 16 Aug 2025 18:58:55 INFO  valid result: 
+recall@5 : 0.1093    recall@10 : 0.1499    recall@20 : 0.2038    ndcg@5 : 0.0805    ndcg@10 : 0.0936    ndcg@20 : 0.1071    mrr@5 : 0.0711    mrr@10 : 0.0764    mrr@20 : 0.0801
+Sat 16 Aug 2025 18:58:56 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:59:23 INFO  epoch 7 training [time: 26.97s, train loss: 1105.1633]
+Sat 16 Aug 2025 18:59:24 INFO  epoch 7 evaluating [time: 1.21s, valid_score: 0.153500]
+Sat 16 Aug 2025 18:59:24 INFO  valid result: 
+recall@5 : 0.1121    recall@10 : 0.1535    recall@20 : 0.2092    ndcg@5 : 0.0814    ndcg@10 : 0.0947    ndcg@20 : 0.1087    mrr@5 : 0.0714    mrr@10 : 0.0768    mrr@20 : 0.0806
+Sat 16 Aug 2025 18:59:24 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 18:59:50 INFO  epoch 8 training [time: 26.31s, train loss: 1091.8817]
+Sat 16 Aug 2025 18:59:51 INFO  epoch 8 evaluating [time: 1.32s, valid_score: 0.155200]
+Sat 16 Aug 2025 18:59:51 INFO  valid result: 
+recall@5 : 0.1128    recall@10 : 0.1552    recall@20 : 0.211    ndcg@5 : 0.082    ndcg@10 : 0.0957    ndcg@20 : 0.1097    mrr@5 : 0.0719    mrr@10 : 0.0776    mrr@20 : 0.0814
+Sat 16 Aug 2025 18:59:52 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:00:18 INFO  epoch 9 training [time: 26.39s, train loss: 1081.5257]
+Sat 16 Aug 2025 19:00:19 INFO  epoch 9 evaluating [time: 1.22s, valid_score: 0.158000]
+Sat 16 Aug 2025 19:00:19 INFO  valid result: 
+recall@5 : 0.1136    recall@10 : 0.158    recall@20 : 0.2143    ndcg@5 : 0.0818    ndcg@10 : 0.0961    ndcg@20 : 0.1103    mrr@5 : 0.0714    mrr@10 : 0.0772    mrr@20 : 0.0811
+Sat 16 Aug 2025 19:00:19 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:00:46 INFO  epoch 10 training [time: 26.47s, train loss: 1073.2205]
+Sat 16 Aug 2025 19:00:47 INFO  epoch 10 evaluating [time: 1.22s, valid_score: 0.158400]
+Sat 16 Aug 2025 19:00:47 INFO  valid result: 
+recall@5 : 0.1144    recall@10 : 0.1584    recall@20 : 0.215    ndcg@5 : 0.0821    ndcg@10 : 0.0963    ndcg@20 : 0.1105    mrr@5 : 0.0715    mrr@10 : 0.0773    mrr@20 : 0.0812
+Sat 16 Aug 2025 19:00:47 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:01:13 INFO  epoch 11 training [time: 26.17s, train loss: 1065.7414]
+Sat 16 Aug 2025 19:01:14 INFO  epoch 11 evaluating [time: 1.22s, valid_score: 0.159000]
+Sat 16 Aug 2025 19:01:14 INFO  valid result: 
+recall@5 : 0.1154    recall@10 : 0.159    recall@20 : 0.2167    ndcg@5 : 0.0826    ndcg@10 : 0.0967    ndcg@20 : 0.1112    mrr@5 : 0.0718    mrr@10 : 0.0776    mrr@20 : 0.0816
+Sat 16 Aug 2025 19:01:14 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:01:40 INFO  epoch 12 training [time: 26.04s, train loss: 1059.8434]
+Sat 16 Aug 2025 19:01:42 INFO  epoch 12 evaluating [time: 1.23s, valid_score: 0.158600]
+Sat 16 Aug 2025 19:01:42 INFO  valid result: 
+recall@5 : 0.1148    recall@10 : 0.1586    recall@20 : 0.2161    ndcg@5 : 0.0816    ndcg@10 : 0.0958    ndcg@20 : 0.1102    mrr@5 : 0.0707    mrr@10 : 0.0765    mrr@20 : 0.0805
+Sat 16 Aug 2025 19:02:08 INFO  epoch 13 training [time: 26.31s, train loss: 1054.5813]
+Sat 16 Aug 2025 19:02:09 INFO  epoch 13 evaluating [time: 1.26s, valid_score: 0.159800]
+Sat 16 Aug 2025 19:02:09 INFO  valid result: 
+recall@5 : 0.1156    recall@10 : 0.1598    recall@20 : 0.2159    ndcg@5 : 0.0823    ndcg@10 : 0.0965    ndcg@20 : 0.1106    mrr@5 : 0.0713    mrr@10 : 0.0771    mrr@20 : 0.081
+Sat 16 Aug 2025 19:02:09 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:02:35 INFO  epoch 14 training [time: 25.91s, train loss: 1049.3335]
+Sat 16 Aug 2025 19:02:37 INFO  epoch 14 evaluating [time: 1.29s, valid_score: 0.160200]
+Sat 16 Aug 2025 19:02:37 INFO  valid result: 
+recall@5 : 0.1156    recall@10 : 0.1602    recall@20 : 0.2184    ndcg@5 : 0.0824    ndcg@10 : 0.0967    ndcg@20 : 0.1113    mrr@5 : 0.0714    mrr@10 : 0.0773    mrr@20 : 0.0813
+Sat 16 Aug 2025 19:02:37 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:03:02 INFO  epoch 15 training [time: 25.91s, train loss: 1045.7276]
+Sat 16 Aug 2025 19:03:04 INFO  epoch 15 evaluating [time: 1.23s, valid_score: 0.159900]
+Sat 16 Aug 2025 19:03:04 INFO  valid result: 
+recall@5 : 0.1165    recall@10 : 0.1599    recall@20 : 0.2184    ndcg@5 : 0.0831    ndcg@10 : 0.097    ndcg@20 : 0.1118    mrr@5 : 0.072    mrr@10 : 0.0778    mrr@20 : 0.0818
+Sat 16 Aug 2025 19:03:30 INFO  epoch 16 training [time: 26.34s, train loss: 1041.8536]
+Sat 16 Aug 2025 19:03:31 INFO  epoch 16 evaluating [time: 1.21s, valid_score: 0.160600]
+Sat 16 Aug 2025 19:03:31 INFO  valid result: 
+recall@5 : 0.1158    recall@10 : 0.1606    recall@20 : 0.2193    ndcg@5 : 0.0824    ndcg@10 : 0.0968    ndcg@20 : 0.1116    mrr@5 : 0.0715    mrr@10 : 0.0773    mrr@20 : 0.0813
+Sat 16 Aug 2025 19:03:31 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:03:58 INFO  epoch 17 training [time: 26.28s, train loss: 1038.2508]
+Sat 16 Aug 2025 19:03:59 INFO  epoch 17 evaluating [time: 1.21s, valid_score: 0.161200]
+Sat 16 Aug 2025 19:03:59 INFO  valid result: 
+recall@5 : 0.116    recall@10 : 0.1612    recall@20 : 0.2183    ndcg@5 : 0.0823    ndcg@10 : 0.0969    ndcg@20 : 0.1113    mrr@5 : 0.0713    mrr@10 : 0.0772    mrr@20 : 0.0811
+Sat 16 Aug 2025 19:03:59 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:04:26 INFO  epoch 18 training [time: 26.90s, train loss: 1035.0765]
+Sat 16 Aug 2025 19:04:27 INFO  epoch 18 evaluating [time: 1.23s, valid_score: 0.160900]
+Sat 16 Aug 2025 19:04:27 INFO  valid result: 
+recall@5 : 0.1161    recall@10 : 0.1609    recall@20 : 0.2185    ndcg@5 : 0.0826    ndcg@10 : 0.097    ndcg@20 : 0.1115    mrr@5 : 0.0715    mrr@10 : 0.0774    mrr@20 : 0.0814
+Sat 16 Aug 2025 19:04:52 INFO  epoch 19 training [time: 25.45s, train loss: 1032.7094]
+Sat 16 Aug 2025 19:04:54 INFO  epoch 19 evaluating [time: 1.22s, valid_score: 0.161400]
+Sat 16 Aug 2025 19:04:54 INFO  valid result: 
+recall@5 : 0.1167    recall@10 : 0.1614    recall@20 : 0.2196    ndcg@5 : 0.0829    ndcg@10 : 0.0972    ndcg@20 : 0.1119    mrr@5 : 0.0717    mrr@10 : 0.0776    mrr@20 : 0.0816
+Sat 16 Aug 2025 19:04:54 INFO  Saving current: saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:05:20 INFO  epoch 20 training [time: 25.88s, train loss: 1029.8855]
+Sat 16 Aug 2025 19:05:21 INFO  epoch 20 evaluating [time: 1.21s, valid_score: 0.160300]
+Sat 16 Aug 2025 19:05:21 INFO  valid result: 
+recall@5 : 0.116    recall@10 : 0.1603    recall@20 : 0.2164    ndcg@5 : 0.0824    ndcg@10 : 0.0966    ndcg@20 : 0.1108    mrr@5 : 0.0714    mrr@10 : 0.0772    mrr@20 : 0.081
+Sat 16 Aug 2025 19:05:47 INFO  epoch 21 training [time: 26.62s, train loss: 1027.4749]
+Sat 16 Aug 2025 19:05:49 INFO  epoch 21 evaluating [time: 1.25s, valid_score: 0.160700]
+Sat 16 Aug 2025 19:05:49 INFO  valid result: 
+recall@5 : 0.1155    recall@10 : 0.1607    recall@20 : 0.2178    ndcg@5 : 0.0823    ndcg@10 : 0.0968    ndcg@20 : 0.1112    mrr@5 : 0.0714    mrr@10 : 0.0773    mrr@20 : 0.0812
+Sat 16 Aug 2025 19:06:14 INFO  epoch 22 training [time: 25.42s, train loss: 1024.8191]
+Sat 16 Aug 2025 19:06:15 INFO  epoch 22 evaluating [time: 1.22s, valid_score: 0.160800]
+Sat 16 Aug 2025 19:06:15 INFO  valid result: 
+recall@5 : 0.117    recall@10 : 0.1608    recall@20 : 0.2178    ndcg@5 : 0.0832    ndcg@10 : 0.0973    ndcg@20 : 0.1117    mrr@5 : 0.0721    mrr@10 : 0.0779    mrr@20 : 0.0818
+Sat 16 Aug 2025 19:06:42 INFO  epoch 23 training [time: 26.39s, train loss: 1022.4598]
+Sat 16 Aug 2025 19:06:43 INFO  epoch 23 evaluating [time: 1.25s, valid_score: 0.160100]
+Sat 16 Aug 2025 19:06:43 INFO  valid result: 
+recall@5 : 0.1162    recall@10 : 0.1601    recall@20 : 0.2176    ndcg@5 : 0.0827    ndcg@10 : 0.0968    ndcg@20 : 0.1113    mrr@5 : 0.0717    mrr@10 : 0.0775    mrr@20 : 0.0814
+Sat 16 Aug 2025 19:07:09 INFO  epoch 24 training [time: 25.95s, train loss: 1020.3459]
+Sat 16 Aug 2025 19:07:10 INFO  epoch 24 evaluating [time: 1.30s, valid_score: 0.160800]
+Sat 16 Aug 2025 19:07:10 INFO  valid result: 
+recall@5 : 0.1156    recall@10 : 0.1608    recall@20 : 0.2182    ndcg@5 : 0.0825    ndcg@10 : 0.0971    ndcg@20 : 0.1115    mrr@5 : 0.0716    mrr@10 : 0.0776    mrr@20 : 0.0815
+Sat 16 Aug 2025 19:07:37 INFO  epoch 25 training [time: 26.25s, train loss: 1018.5420]
+Sat 16 Aug 2025 19:07:38 INFO  epoch 25 evaluating [time: 1.33s, valid_score: 0.161100]
+Sat 16 Aug 2025 19:07:38 INFO  valid result: 
+recall@5 : 0.1168    recall@10 : 0.1611    recall@20 : 0.2183    ndcg@5 : 0.0834    ndcg@10 : 0.0977    ndcg@20 : 0.1121    mrr@5 : 0.0724    mrr@10 : 0.0783    mrr@20 : 0.0822
+Sat 16 Aug 2025 19:07:38 INFO  Finished training, best eval result in epoch 19
+Sat 16 Aug 2025 19:07:38 INFO  Loading model structure and parameters from saved/MyModel-Aug-16-2025_18-55-41.pth
+Sat 16 Aug 2025 19:07:40 INFO  The running environment of this training is as follows:
++-------------+-----------------+
+| Environment |      Usage      |
++=============+=================+
+| CPU         |     4.60 %      |
++-------------+-----------------+
+| GPU         | 13.10 G/23.65 G |
++-------------+-----------------+
+| Memory      | 1.76 G/125.53 G |
++-------------+-----------------+
+Sat 16 Aug 2025 19:07:40 INFO  best valid : OrderedDict([('recall@5', 0.1167), ('recall@10', 0.1614), ('recall@20', 0.2196), ('ndcg@5', 0.0829), ('ndcg@10', 0.0972), ('ndcg@20', 0.1119), ('mrr@5', 0.0717), ('mrr@10', 0.0776), ('mrr@20', 0.0816)])
+Sat 16 Aug 2025 19:07:40 INFO  test result: OrderedDict([('recall@5', 0.0943), ('recall@10', 0.1315), ('recall@20', 0.1820), ('ndcg@5', 0.0686), ('ndcg@10', 0.0805), ('ndcg@20', 0.0929), ('mrr@5', 0.0601), ('mrr@10', 0.065), ('mrr@20', 0.0684)])
