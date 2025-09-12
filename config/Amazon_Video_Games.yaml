@@ -44,12 +44,6 @@ loss_type: 'CE'
 c: 9
 d_state: 16  
 
-# Evaluation Settings
-# eval_args:
-#   split: {'LS': 'valid_and_test'}
-#   group_by: user
-#   order: TO
-#   mode: uni100
 repeatable: True
 metrics: ["Recall","NDCG", "MRR"]
 topk: [5,10,20]
