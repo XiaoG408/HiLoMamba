@@ -9,13 +9,14 @@ Our model is based on a famous open-source framework [Recbole](https://recbole.i
 Please, download three widely used benchmarks from [RecSysDatasets](https://github.com/RUCAIBox/RecSysDatasets) or [Google Drive](https://drive.google.com/drive/folders/1ahiLmzU7cGRPXf5qGMqtAChte2eYp9gI) constructed by RecBole's team.
 
 ## Training & Inference
+You can find our experimental logging files in `./exp_log` and you can execute the following code in the terminal.
 ```
-# Beauty
-python run_recbole.py --gpu_id='0' --model=AdaMCT --dataset='Amazon_Beauty' --config_files='config/Amazon_Beauty.yaml'
+# Amazon_Handmade_Products
+python run_recbole.py --gpu_id='0' --model=HiLoMamba --dataset='Amazon_Handmade_Products' --config_files='config/Amazon_Handmade_Products.yaml'
 
-# Toys
-python run_recbole.py --gpu_id='1' --model=AdaMCT --dataset='Amazon_Toys_and_Games' --config_files='config/Amazon_Toys_and_Games.yaml' 
+# Amazon_Video_Games
+python run_recbole.py --gpu_id='0' --model=HiLoMamba --dataset='Amazon_Video_Games' --config_files='config/Amazon_Video_Games.yaml' 
 
-# Sports
-python run_recbole.py --gpu_id='2' --model=AdaMCT --dataset='Amazon_Sports_and_Outdoors' --config_files='config/Amazon_Sports_and_Outdoors.yaml'
+# Steam
+python run_recbole.py --gpu_id='0' --model=HiLoMamba --dataset='steam' --config_files='config/steam.yaml'
 ```
