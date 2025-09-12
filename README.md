@@ -3,4 +3,4 @@
 Our model is based on a famous open-source framework [Recbole](https://recbole.io/)
 
 ## Overview
-[HiLoMamba](images/MyModel.pdf)
+![HiLoMamba](images/MyModel.png)
